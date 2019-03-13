@@ -1,0 +1,76 @@
+from numpy.random import randint,choice
+x=[0,10]
+y=[0,10]
+class Turtle:
+    def __init__(self):
+        self.power=100
+        self.x=randint(x[0],x[1]+1)
+        self.y=randint(x[0],x[1]+1)
+
+    def move(self):
+
+        new_x=self.x+choice([1,2,-1,-2])
+        new_y=self.y+choice([1,2,-1,-2])
+        if new_x<x[0]:
+            self.x=x[0]-(new_x-x[0])
+        elif new_x>x[1]:
+            self.x=x[1]-(new_x-x[1])
+        else:
+            self.x=new_x
+
+        if new_y<y[0]:
+            self.y=y[0]-(new_y-y[0])
+        elif new_y>y[1]:
+            self.y=y[1]-(new_y-y[1])
+        else:
+            self.y=new_y
+        self.power-=1
+        return (self.x,self.y)
+
+    def eat(self):
+        self.power+=20
+        if self.power>100:
+            self.power=100
+
+class Fish:
+    def __init__(self):
+        self.x = randint(x[0], x[1] + 1)
+        self.y = randint(x[0], x[1] + 1)
+    def move(self):
+        new_x=self.x+choice([1,2,-1,-2])
+        new_y=self.y+choice([1,2,-1,-2])
+        if new_x<x[0]:
+            self.x=x[0]-(new_x-x[0])
+        elif new_x>x[1]:
+            self.x=x[1]-(new_x-x[1])
+        else:
+            self.x=new_x
+
+        if new_y<y[0]:
+            self.y=y[0]-(new_y-y[0])
+        elif new_y>y[1]:
+            self.y=y[1]-(new_y-y[1])
+        else:
+            self.y=new_y
+        return (self.x,self.y)
+
+turtle=Turtle()
+fish=[]
+for i in range(0,10):
+    new_fish=Fish()
+    fish.append(new_fish)
+
+while True:
+    if len(fish)==0:
+        print('鱼被吃完了')
+        break
+    if turtle.power==0:
+        print('乌龟能量没了')
+        break
+    pos=turtle.move()
+    print('乌龟到了x轴%d，y轴%d处'%(pos[0],pos[1]))
+    for each_fish in fish[:]:
+        if each_fish.move()==pos:
+            turtle.eat()
+            fish.remove(each_fish)
+            print('吃吃吃')
